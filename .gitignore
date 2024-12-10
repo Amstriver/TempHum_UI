@@ -1,0 +1,9 @@
+settings.json
+
+.vscode
+
+__pycache__/*
+
+build/*
+
+dist/*
