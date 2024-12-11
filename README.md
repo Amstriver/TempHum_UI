@@ -1,6 +1,6 @@
 效果展示
 =
-https://github.com/Amstriver/TempHum_UI/blob/master/Video_TH.mp4
+https://github.com/user-attachments/assets/3c56cf43-8c94-4717-8d07-d712d962d48e.mp4
 
 如何下载
 -
