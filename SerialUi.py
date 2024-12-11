@@ -129,11 +129,11 @@ class SerialUi(QWidget):
         serial_send_vlayout = QVBoxLayout()
         serial_send_gridlayout = QGridLayout()
 
-        # 选择温度或湿度
-        self.check_Tempcurve = QRadioButton('温度曲线')
-        serial_send_gridlayout.addWidget(self.check_Tempcurve, 0, 0)
-        self.check_Humicurve = QRadioButton('湿度曲线')
-        serial_send_gridlayout.addWidget(self.check_Humicurve, 0, 1)
+        # # 选择温度或湿度
+        # self.check_Tempcurve = QRadioButton('温度曲线')
+        # serial_send_gridlayout.addWidget(self.check_Tempcurve, 0, 0)
+        # self.check_Humicurve = QRadioButton('湿度曲线')
+        # serial_send_gridlayout.addWidget(self.check_Humicurve, 0, 1)
 
         # 最大值输入
         self.serial_send_maxlabel = QLabel('最大值')
@@ -215,10 +215,10 @@ class SerialUi(QWidget):
         # 温度提示灯
         temp_layout = QHBoxLayout()
         self.temp_high_symbol = QLabel('温度过高指示灯')
-        icon_size = QSize(32, 32)
+        self.icon_size = QSize(32, 32)
         # 使用QPixmap来显示图标
         icon_pixmap = QPixmap('./icon/Indicator_grey.png')
-        scaled_icon_pixmap = icon_pixmap.scaled(icon_size)
+        scaled_icon_pixmap = icon_pixmap.scaled(self.icon_size)
         self.temp_high_icon_label = QLabel()
         self.temp_high_icon_label.setPixmap(scaled_icon_pixmap)
         self.temp_max = QLabel('温度最大值')
@@ -235,11 +235,10 @@ class SerialUi(QWidget):
         self.check_temperature_value = QLineEdit()
         self.check_temperature_value.setFixedWidth(100)
         self.symbol_temperature = QLabel('℃')
-        self.check_button_tem = QPushButton('查看')
+        self.check_button_tem = QPushButton('设置')
 
         temp_layout.addWidget(self.check_temperature_value)
         temp_layout.addWidget(self.symbol_temperature)
-        temp_layout.addWidget(self.check_button_tem)
         temp_layout.addWidget(self.temp_high_symbol)
         temp_layout.addWidget(self.temp_high_icon_label)
         temp_layout.addWidget(self.temp_max)
@@ -248,6 +247,7 @@ class SerialUi(QWidget):
         temp_layout.addWidget(self.temp_low_icon_label)
         temp_layout.addWidget(self.temp_temp_min)
         temp_layout.addWidget(self.temp_low_thread)
+        temp_layout.addWidget(self.check_button_tem)
         operate_gridlayout.addLayout(temp_layout, 0, 0)
 
         # 湿度提示灯
@@ -269,11 +269,10 @@ class SerialUi(QWidget):
         self.check_humidity_value = QLineEdit()
         self.check_humidity_value.setFixedWidth(100)
         self.symbol_humidity = QLabel('%')
-        self.check_button_hum = QPushButton('查看')
+        self.check_button_hum = QPushButton('设置')
 
         humi_layout.addWidget(self.check_humidity_value)
         humi_layout.addWidget(self.symbol_humidity)
-        humi_layout.addWidget(self.check_button_hum)
         humi_layout.addWidget(self.humidity_high_symbol)
         humi_layout.addWidget(self.humidity_high_icon_label)
         humi_layout.addWidget(self.humidity_max)
@@ -282,15 +281,17 @@ class SerialUi(QWidget):
         humi_layout.addWidget(self.humidity_low_icon_label)
         humi_layout.addWidget(self.humidity_min)
         humi_layout.addWidget(self.humidity_low_thread)
+        humi_layout.addWidget(self.check_button_hum)
         operate_gridlayout.addLayout(humi_layout, 1, 0)
 
         hbox_layout = QHBoxLayout()
         # 操作按钮
-        self.radioButton1 = QRadioButton("温度曲线")
-        self.radioButton2 = QRadioButton("湿度曲线")
+        self.tempButton = QRadioButton("温度曲线")
+        self.tempButton.setChecked(True)
+        self.humiButton = QRadioButton("湿度曲线")
         Vlayout = QVBoxLayout()
-        Vlayout.addWidget(self.radioButton1)
-        Vlayout.addWidget(self.radioButton2)
+        Vlayout.addWidget(self.tempButton)
+        Vlayout.addWidget(self.humiButton)
         hbox_layout.addLayout(Vlayout)
 
         self.open_collect_button = QPushButton('开始采集')
@@ -369,17 +370,17 @@ class SerialUi(QWidget):
         sensor_curve_formlayout.addWidget(self.sensor_temp_curve, 0, 0)
 
         # 环境湿度实时曲线
-        self.sensor_humidity_curve = QwtPlot()
-        self.sensor_humidity_curve.setMinimumSize(420, 240)
-        self.sensor_humidity_curve.setFont(QFont("Times New Roman"))
-        self.sensor_humidity_curve.setTitle("传感器湿度实时曲线")
-        self.sensor_humidity_curve.setAxisTitle(QwtPlot.xBottom, "Time/s")
-        self.sensor_humidity_curve.setAxisFont(QwtPlot.xBottom, QFont("Times New Roman", 10))
-        self.sensor_humidity_curve.setAxisTitle(QwtPlot.yLeft, "Value/%")
-        self.sensor_humidity_curve.setAxisFont(QwtPlot.yLeft, QFont("Times New Roman", 10))
-        self.sensor_humidity_curve.insertLegend(QwtLegend(), QwtPlot.BottomLegend)
+        self.sensor_humi_curve = QwtPlot()
+        self.sensor_humi_curve.setMinimumSize(420, 240)
+        self.sensor_humi_curve.setFont(QFont("Times New Roman"))
+        self.sensor_humi_curve.setTitle("传感器湿度实时曲线")
+        self.sensor_humi_curve.setAxisTitle(QwtPlot.xBottom, "Time/s")
+        self.sensor_humi_curve.setAxisFont(QwtPlot.xBottom, QFont("Times New Roman", 10))
+        self.sensor_humi_curve.setAxisTitle(QwtPlot.yLeft, "Value/%")
+        self.sensor_humi_curve.setAxisFont(QwtPlot.yLeft, QFont("Times New Roman", 10))
+        self.sensor_humi_curve.insertLegend(QwtLegend(), QwtPlot.BottomLegend)
         
-        sensor_curve_formlayout.addWidget(self.sensor_humidity_curve, 0, 1)
+        sensor_curve_formlayout.addWidget(self.sensor_humi_curve, 0, 1)
         sensor_curve_gp.setLayout(sensor_curve_formlayout)
         
         return sensor_curve_gp
