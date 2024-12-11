@@ -1,4 +1,8 @@
-# 如何下载
+效果展示
+=
+https://github.com/Amstriver/TempHum_UI/blob/master/Video_TH.mp4
+
+如何下载
 -
 #安装所需要的库
 
